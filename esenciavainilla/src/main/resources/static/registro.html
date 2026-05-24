@@ -4,71 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Registro - Esencia Vainilla</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
-
-body{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#fff8f0,#f5e6d3);
-}
-
-.card{
-    width:500px;
-    background:white;
-    padding:35px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.1);
-}
-
-h1{
-    text-align:center;
-    color:#8b5e3c;
-    margin-bottom:20px;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    margin-bottom:12px;
-    border:1px solid #ddd;
-    border-radius:10px;
-}
-
-input:focus{
-    border-color:#c89f7a;
-    outline:none;
-}
-
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#8b5e3c;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#70472c;
-}
-
-#mensaje{
-    margin-top:15px;
-    text-align:center;
-}
-</style>
+<link rel="stylesheet" href="/styles/registro.css">
 </head>
 
 <body>
@@ -90,52 +26,7 @@ button:hover{
 
 </div>
 
-<script>
-
-async function registrar(){
-
-    const usuario = {
-        id_usuario:0,
-        nombre:document.getElementById("nombre").value,
-        correo:document.getElementById("correo").value,
-        contrasena:document.getElementById("contrasena").value,
-        telefono:document.getElementById("telefono").value,
-        estado:true,
-        id_rol:1
-    };
-
-    try{
-
-        const respuesta = await fetch("/usuarios/registro",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify(usuario)
-        });
-
-        if(respuesta.ok){
-
-            document.getElementById("mensaje").innerHTML =
-                "Usuario registrado correctamente. Redirigiendo al login...";
-
-            setTimeout(() => {
-                window.location.href = "/login.html";
-            }, 1500);
-
-        }else{
-
-            document.getElementById("mensaje").innerHTML =
-                "No fue posible registrar el usuario";
-        }
-
-    }catch(error){
-
-        document.getElementById("mensaje").innerHTML =
-            "Error al registrar usuario";
-    }
-}
-</script>
+<script src="/js/registro.js"></script>
 
 </body>
 </html>
