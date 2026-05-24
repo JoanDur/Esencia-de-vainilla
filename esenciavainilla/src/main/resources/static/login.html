@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esencia Vainilla - Login</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#fff8f0,#f5e6d3);
+}
+
+.card{
+    width:400px;
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.logo h1{
+    color:#8b5e3c;
+}
+
+.logo p{
+    color:#777;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#c89f7a;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#8b5e3c;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#70472c;
+}
+
+.registro-link{
+    margin-top:20px;
+    text-align:center;
+}
+
+.registro-link span{
+    color:#777;
+    font-size:14px;
+}
+
+.registro-link a{
+    color:#4a90e2;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+}
+
+.registro-link a:hover{
+    text-decoration:underline;
+}
+
+#mensaje{
+    margin-top:15px;
+    text-align:center;
+    color:#8b5e3c;
+    font-weight:500;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="logo">
+        <h1>🍰 Esencia Vainilla</h1>
+        <p>Iniciar Sesión</p>
+    </div>
+
+    <div class="input-group">
+        <input type="text" id="nombre" placeholder="Usuario">
+    </div>
+
+    <div class="input-group">
+        <input type="password" id="contrasena" placeholder="Contraseña">
+    </div>
+
+    <button onclick="login()">
+        Ingresar
+    </button>
+
+    <div class="registro-link">
+        <span>¿No tienes cuenta?</span>
+        <a href="/registro.html"> Crear una cuenta</a>
+    </div>
+
+    <p id="mensaje"></p>
+
+</div>
+
+<script>
+
+async function login(){
+
+    const datos = {
+        nombre: document.getElementById("nombre").value,
+        contrasena: document.getElementById("contrasena").value
+    };
+
+    try{
+
+        const respuesta = await fetch("/usuarios/login",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(datos)
+        });
+
+        if(!respuesta.ok){
+            throw new Error("Credenciales inválidas");
+        }
+
+        const usuario = await respuesta.json();
+
+        document.getElementById("mensaje").innerHTML =
+            "Bienvenido " + usuario.nombre;
+
+        // Aquí luego puedes redirigir al dashboard
+        // window.location.href = "/dashboard.html";
+
+    }catch(error){
+
+        document.getElementById("mensaje").innerHTML =
+            "Usuario o contraseña incorrectos";
+    }
+
+}
+</script>
+
+</body>
+</html>

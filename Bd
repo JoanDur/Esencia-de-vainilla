@@ -1,0 +1,316 @@
+
+-- ============================================================
+-- TIENDA DE POSTRES - Base de datos para página web
+-- ============================================================
+
+-- 1. Roles de usuario (admin, cliente, etc.)
+CREATE TABLE ROL (
+    id_rol      SERIAL PRIMARY KEY,
+    nombre      VARCHAR(20) NOT NULL,
+    descripcion VARCHAR(100)
+);
+
+-- 2. Usuario unificado
+CREATE TABLE USUARIO (
+    id_usuario      SERIAL PRIMARY KEY,
+    nombre          VARCHAR(50)  NOT NULL,
+    correo          VARCHAR(100) NOT NULL UNIQUE,
+    contrasena      VARCHAR(255) NOT NULL,
+    telefono        VARCHAR(10),
+    fecha_registro  TIMESTAMP    NOT NULL,
+    activo          BOOLEAN,
+    id_rol          INT          NOT NULL,
+    FOREIGN KEY (id_rol) REFERENCES ROL(id_rol)
+);
+ALTER TABLE USUARIO
+	ALTER COLUMN id_rol SET DEFAULT 0; 
+	
+ALTER TABLE USUARIO
+ALTER COLUMN fecha_registro
+SET DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE USUARIO
+ALTER COLUMN activo
+SET DEFAULT TRUE;
+
+-- 3. Direcciones del usuario
+CREATE TABLE DIRECCION (
+    id_direccion    SERIAL PRIMARY KEY,
+    id_usuario      INT          NOT NULL,
+    alias           VARCHAR(30),
+    direccion       VARCHAR(150),
+    ciudad          VARCHAR(50),
+    es_principal    BOOLEAN      NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
+);
+
+ALTER TABLE DIRECCION ALTER COLUMN alias SET DEFAULT 'Principal';
+ALTER TABLE DIRECCION ALTER COLUMN es_principal SET DEFAULT FALSE;
+
+-- 4. Categorías de producto
+CREATE TABLE CATEGORIA (
+    id_categoria    SERIAL PRIMARY KEY,
+    nombre          VARCHAR(50)  NOT NULL,
+    descripcion     VARCHAR(150),
+    imagen_url      VARCHAR(255)
+);
+
+-- 5. Productos
+CREATE TABLE PRODUCTO (
+    id_producto     SERIAL PRIMARY KEY,
+    nombre          VARCHAR(100) NOT NULL,
+    descripcion     TEXT,
+    precio          NUMERIC(10,2) NOT NULL,
+    stock           INT           NOT NULL,
+    imagen_url      VARCHAR(255),
+    disponible      BOOLEAN       NOT NULL,
+    id_categoria    INT,
+    FOREIGN KEY (id_categoria) REFERENCES CATEGORIA(id_categoria)
+);
+
+ALTER TABLE PRODUCTO ALTER COLUMN stock SET DEFAULT 0;
+ALTER TABLE PRODUCTO ALTER COLUMN disponible SET DEFAULT TRUE;
+
+ALTER TABLE PRODUCTO
+ADD CONSTRAINT chk_precio CHECK (precio > 0),
+ADD CONSTRAINT chk_stock CHECK (stock >= 0);
+
+-- 6. Pedido
+CREATE TABLE PEDIDO (
+    id_pedido       SERIAL PRIMARY KEY,
+    fecha           TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    estado          VARCHAR(20)   NOT NULL,
+    total           NUMERIC(12,2) NOT NULL,
+    metodo_pago     VARCHAR(30),
+    id_usuario      INT           NOT NULL,
+    id_direccion    INT,
+    FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario),
+    FOREIGN KEY (id_direccion) REFERENCES DIRECCION(id_direccion)
+);
+
+ALTER TABLE PEDIDO ALTER COLUMN estado SET DEFAULT 'PENDIENTE';
+ALTER TABLE PEDIDO ALTER COLUMN total SET DEFAULT 0;
+ALTER TABLE PEDIDO ALTER COLUMN metodo_pago SET DEFAULT 'EFECTIVO';
+
+ALTER TABLE PEDIDO
+ADD CONSTRAINT chk_total CHECK (total >= 0),
+ADD CONSTRAINT chk_estado CHECK (
+    estado IN (
+        'PENDIENTE',
+        'CONFIRMADO',
+        'EN_CAMINO',
+        'ENTREGADO',
+        'CANCELADO'
+    )
+);
+
+-- 7. Detalle del pedido
+CREATE TABLE DETALLE_PEDIDO (
+    id_pedido       INT           NOT NULL,
+    id_producto     INT           NOT NULL,
+    cantidad        INT           NOT NULL,
+    precio_unitario NUMERIC(10,2) NOT NULL,
+    subtotal        NUMERIC(12,2) NOT NULL,
+    PRIMARY KEY (id_pedido, id_producto),
+    FOREIGN KEY (id_pedido) REFERENCES PEDIDO(id_pedido),
+    FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto)
+);
+
+ALTER TABLE DETALLE_PEDIDO
+ADD CONSTRAINT chk_cantidad CHECK (cantidad > 0),
+ADD CONSTRAINT chk_precio_valido CHECK (precio_unitario > 0),
+ADD CONSTRAINT chk_subtotal_valido CHECK (subtotal > 0);
+
+-- 8. Carrito
+CREATE TABLE CARRITO (
+    id_carrito      SERIAL PRIMARY KEY,
+    id_usuario      INT NOT NULL UNIQUE,
+    fecha_creacion  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
+);
+
+CREATE TABLE CARRITO_ITEM (
+    id_carrito      INT NOT NULL,
+    id_producto     INT NOT NULL,
+    cantidad        INT NOT NULL,
+    PRIMARY KEY (id_carrito, id_producto),
+    FOREIGN KEY (id_carrito) REFERENCES CARRITO(id_carrito),
+    FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto)
+);
+
+ALTER TABLE CARRITO_ITEM
+ADD CONSTRAINT chk_ci_cantidad CHECK (cantidad > 0);
+
+-- 9. Reseñas
+CREATE TABLE RESENA (
+    id_resena       SERIAL PRIMARY KEY,
+    calificacion    INT NOT NULL,
+    comentario      TEXT,
+    fecha           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_usuario      INT NOT NULL,
+    id_producto     INT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario),
+    FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto)
+);
+
+ALTER TABLE RESENA
+ADD CONSTRAINT chk_calificacion CHECK (calificacion BETWEEN 1 AND 5);
+
+-- Reconfiguración de FK con ON DELETE / ON UPDATE
+ALTER TABLE USUARIO DROP CONSTRAINT usuario_id_rol_fkey;
+ALTER TABLE USUARIO ADD CONSTRAINT fk_usuario_rol
+FOREIGN KEY (id_rol) REFERENCES ROL(id_rol)
+ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE DIRECCION DROP CONSTRAINT direccion_id_usuario_fkey;
+ALTER TABLE DIRECCION ADD CONSTRAINT fk_direccion_usuario
+FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE PRODUCTO DROP CONSTRAINT producto_id_categoria_fkey;
+ALTER TABLE PRODUCTO ADD CONSTRAINT fk_producto_categoria
+FOREIGN KEY (id_categoria) REFERENCES CATEGORIA(id_categoria)
+ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE PEDIDO DROP CONSTRAINT pedido_id_usuario_fkey;
+ALTER TABLE PEDIDO ADD CONSTRAINT fk_pedido_usuario
+FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
+ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE PEDIDO DROP CONSTRAINT pedido_id_direccion_fkey;
+ALTER TABLE PEDIDO ADD CONSTRAINT fk_pedido_direccion
+FOREIGN KEY (id_direccion) REFERENCES DIRECCION(id_direccion)
+ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE DETALLE_PEDIDO DROP CONSTRAINT detalle_pedido_id_pedido_fkey;
+ALTER TABLE DETALLE_PEDIDO ADD CONSTRAINT fk_detpedido_pedido
+FOREIGN KEY (id_pedido) REFERENCES PEDIDO(id_pedido)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE DETALLE_PEDIDO DROP CONSTRAINT detalle_pedido_id_producto_fkey;
+ALTER TABLE DETALLE_PEDIDO ADD CONSTRAINT fk_detpedido_producto
+FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto)
+ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE CARRITO DROP CONSTRAINT carrito_id_usuario_fkey;
+ALTER TABLE CARRITO ADD CONSTRAINT fk_carrito_usuario
+FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE CARRITO_ITEM DROP CONSTRAINT carrito_item_id_carrito_fkey;
+ALTER TABLE CARRITO_ITEM ADD CONSTRAINT fk_carritem_carrito
+FOREIGN KEY (id_carrito) REFERENCES CARRITO(id_carrito)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE CARRITO_ITEM DROP CONSTRAINT carrito_item_id_producto_fkey;
+ALTER TABLE CARRITO_ITEM ADD CONSTRAINT fk_carritem_producto
+FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE RESENA DROP CONSTRAINT resena_id_usuario_fkey;
+ALTER TABLE RESENA ADD CONSTRAINT fk_resena_usuario
+FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE RESENA DROP CONSTRAINT resena_id_producto_fkey;
+ALTER TABLE RESENA ADD CONSTRAINT fk_resena_producto
+FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- =========================
+-- VISTAS
+-- =========================
+CREATE OR REPLACE VIEW v_productos AS
+SELECT id_producto,nombre,precio,descripcion
+FROM PRODUCTO;
+
+CREATE OR REPLACE VIEW v_usuario AS
+SELECT id_usuario,nombre,correo,telefono,activo
+FROM USUARIO;
+
+CREATE OR REPLACE VIEW v_pedido AS
+SELECT id_pedido,fecha,estado,total,metodo_pago,id_usuario
+FROM PEDIDO;
+
+CREATE OR REPLACE VIEW v_estadisticas AS
+SELECT COUNT(*) total_productos,
+       SUM(stock) inventario_total,
+       AVG(precio) precio_promedio
+FROM PRODUCTO;
+
+
+INSERT INTO ROL(nombre) VALUES
+('Cliente'),('Admin'),('cajero')
+
+-- =========================
+-- ROLES
+-- =========================
+DROP ROLE IF EXISTS cliente;
+DROP ROLE IF EXISTS vendedor;
+DROP ROLE IF EXISTS administrador;
+DROP ROLE IF EXISTS cliente1;
+DROP ROLE IF EXISTS vendedor1;
+DROP ROLE IF EXISTS admin1;
+
+CREATE ROLE cliente;
+CREATE ROLE vendedor;
+CREATE ROLE administrador;
+
+-- =========================
+-- USUARIOS
+-- =========================
+CREATE USER cliente1 WITH PASSWORD '123';
+CREATE USER vendedor1 WITH PASSWORD '456';
+CREATE USER admin1 WITH PASSWORD '789';
+
+-- =========================
+-- ASIGNAR ROLES
+-- =========================
+GRANT cliente TO cliente1;
+GRANT vendedor TO vendedor1;
+GRANT administrador TO admin1;
+
+-- =========================
+-- SCHEMA
+-- =========================
+GRANT USAGE ON SCHEMA public TO cliente,vendedor,administrador;
+
+-- =========================
+-- CLIENTE
+-- =========================
+GRANT SELECT ON v_productos TO cliente;
+GRANT INSERT,UPDATE ON USUARIO TO cliente;
+GRANT INSERT,SELECT ON PEDIDO TO cliente;
+
+-- =========================
+-- VENDEDOR
+-- =========================
+GRANT SELECT,UPDATE ON PRODUCTO TO vendedor;
+GRANT SELECT ON v_usuario TO vendedor;
+GRANT SELECT ON v_pedido TO vendedor;
+
+-- =========================
+-- ADMIN
+-- =========================
+GRANT ALL PRIVILEGES ON PRODUCTO TO administrador;
+GRANT ALL PRIVILEGES ON USUARIO TO administrador;
+GRANT ALL PRIVILEGES ON PEDIDO TO administrador;
+GRANT SELECT ON v_estadisticas TO administrador;
+
+-- =========================
+-- SECUENCIAS
+-- =========================
+GRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA public
+TO cliente,vendedor,administrador;
+
+SELECT grantee, table_name, privilege_type
+FROM   information_schema.role_table_grants
+WHERE  grantee IN ('cliente', 'vendedor', 'administrador')
+  AND  table_schema = 'public'
+ORDER BY grantee, table_name;
+
+SELECT u.rolname AS usuario, r.rolname AS rol_heredado
+FROM   pg_auth_members m
+JOIN   pg_roles r ON m.roleid = r.oid
+JOIN   pg_roles u ON m.member = u.oid;
+
