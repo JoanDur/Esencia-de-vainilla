@@ -220,17 +220,6 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 -- =========================
 -- VISTAS
 -- =========================
-CREATE OR REPLACE VIEW v_productos AS
-SELECT id_producto,nombre,precio,descripcion
-FROM PRODUCTO;
-
-CREATE OR REPLACE VIEW v_usuario AS
-SELECT id_usuario,nombre,correo,telefono,activo
-FROM USUARIO;
-
-CREATE OR REPLACE VIEW v_pedido AS
-SELECT id_pedido,fecha,estado,total,metodo_pago,id_usuario
-FROM PEDIDO;
 
 CREATE OR REPLACE VIEW v_estadisticas AS
 SELECT COUNT(*) total_productos,
@@ -238,6 +227,49 @@ SELECT COUNT(*) total_productos,
        AVG(precio) precio_promedio
 FROM PRODUCTO;
 
+CREATE VIEW v_productos_disponibles AS
+SELECT id_producto, nombre, descripcion, precio, stock,
+disponible, id_categoria
+FROM PRODUCTO
+WHERE disponible = TRUE
+WITH CHECK OPTION;
+
+CREATE VIEW v_clientesfrecuentes AS
+SELECT u.id_usuario,
+u.nombre AS cliente,
+u.correo,
+COUNT(p.id_pedido) AS total_pedidos,
+SUM(p.total) AS gasto_total
+FROM USUARIO u
+JOIN PEDIDO p ON u.id_usuario = p.id_usuario
+WHERE p.estado = 'ENTREGADO'
+GROUP BY u.id_usuario, u.nombre, u.correo
+ORDER BY total_pedidos DESC, gasto_total DESC;
+
+CREATE VIEW v_reporteventas AS
+SELECT p.id_producto,
+p.nombre AS producto,
+c.nombre AS categoria,
+COUNT(dp.id_pedido) AS total_ventas,
+SUM(dp.cantidad) AS unidades_vendidas,
+SUM(dp.subtotal) AS ingresos_totales
+FROM PRODUCTO p
+LEFT JOIN CATEGORIA c ON p.id_categoria = c.id_categoria
+LEFT JOIN DETALLE_PEDIDO dp ON p.id_producto = dp.id_producto
+GROUP BY p.id_producto, p.nombre, c.nombre
+ORDER BY ingresos_totales DESC NULLS LAST;
+
+CREATE VIEW v_productos AS
+SELECT p.id_producto,
+p.nombre AS nombre_producto,
+p.descripcion,
+p.precio,
+p.stock,
+p.disponible,
+c.nombre AS categoria,
+p.imagen_url
+FROM PRODUCTO p
+LEFT JOIN CATEGORIA c ON p.id_categoria = c.id_categoria;
 
 INSERT INTO ROL(nombre) VALUES
 ('Cliente'),('Admin'),('cajero')
