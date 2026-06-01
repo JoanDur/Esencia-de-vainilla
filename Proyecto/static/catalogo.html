@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo — Esencia Vainilla</title>
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/catalogo.css">
+</head>
+<body>
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <span class="marca-mini">EV</span> Esencia Vainilla
+        </div>
+
+        <div class="navbar-enlaces">
+            <a href="/catalogo.html" class="nav-link activo">Catálogo</a>
+            <a href="/mis-pedidos.html" class="nav-link">Mis Pedidos</a>
+
+            <!-- Boton admin: solo visible si el usuario es ADMIN (id_rol=1) -->
+            <a href="/admin-dashboard.html" class="nav-link oculto" id="link-admin">Panel Admin</a>
+
+            <!-- Carrito con contador -->
+            <a href="/carrito.html" class="nav-carrito" aria-label="Carrito"><span class="contador-carrito" id="contador-carrito">0</span>
+            </a>
+
+            <!-- Saludo + cerrar sesion -->
+            <span class="saludo-usuario" id="saludo-usuario"></span>
+            <button class="btn-cerrar-sesion" id="btn-cerrar-sesion">Cerrar sesión</button>
+        </div>
+    </nav>
+
+    <!-- ===================== CONTENIDO ===================== -->
+    <main class="contenido-catalogo">
+        <header class="encabezado-catalogo">
+            <h1>Nuestros postres</h1>
+            <p>Reposteria artesanal con inspiracion italiana</p>
+        </header>
+
+        <!-- Filtros de categoria (botones pill) -->
+        <div class="filtros-categoria" id="filtros-categoria">
+            <button class="pill-categoria activo" data-categoria="todas">Todas</button>
+            <!-- Las demas categorias se cargan dinamicamente con JS -->
+        </div>
+
+        <!-- Grid de productos -->
+        <div class="grid-productos" id="grid-productos">
+            <!-- Los productos se cargan dinamicamente con JS -->
+            <p class="cargando-texto">Cargando productos...</p>
+        </div>
+    </main>
+
+    <!-- Toast de confirmacion al agregar al carrito -->
+    <div class="toast" id="toast"></div>
+
+    <script src="/js/sesion.js"></script>
+    <script src="/js/catalogo.js"></script>
+</body>
+</html>

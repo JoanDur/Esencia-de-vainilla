@@ -1,0 +1,270 @@
+﻿/* =================================================================
+   BASE.CSS - Sistema visual Esencia Vainilla
+   Inspiracion: pasteleria italiana, colores suaves y acabados finos
+   ================================================================= */
+
+:root {
+    --color-crema: #fbf6ed;
+    --color-beige: #eadcc8;
+    --color-blanco: #fffdf8;
+    --color-marron: #8c6a52;
+    --color-marron-oscuro: #4c362b;
+    --color-texto: #3d302b;
+    --color-rosa: #e9c8c1;
+    --color-rosa-suave: #f7e6e2;
+    --color-pistacho: #c9d8bd;
+    --color-pistacho-profundo: #6f8063;
+    --color-dorado: #c8a96a;
+    --color-error: #b45b4f;
+    --color-exito: #6f8b67;
+    --color-advertencia: #c69055;
+    --color-info: #6e8791;
+
+    --sombra-suave: 0 14px 34px rgba(76, 54, 43, 0.08);
+    --sombra-media: 0 18px 44px rgba(76, 54, 43, 0.12);
+    --sombra-fuerte: 0 26px 70px rgba(76, 54, 43, 0.18);
+
+    --borde-fino: 1px solid rgba(140, 106, 82, 0.18);
+    --radio-pequeno: 8px;
+    --radio-medio: 8px;
+    --radio-grande: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background:
+        linear-gradient(135deg, rgba(247, 230, 226, 0.6), transparent 36%),
+        linear-gradient(225deg, rgba(201, 216, 189, 0.5), transparent 34%),
+        var(--color-crema);
+    color: var(--color-texto);
+    line-height: 1.6;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.38;
+    background-image:
+        linear-gradient(rgba(76, 54, 43, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(76, 54, 43, 0.035) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: var(--color-marron-oscuro);
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.12;
+}
+
+h1 { font-size: clamp(2.1rem, 4vw, 3.6rem); }
+h2 { font-size: clamp(1.55rem, 2.5vw, 2.2rem); }
+h3 { font-size: 1.25rem; }
+
+p { color: rgba(61, 48, 43, 0.82); }
+
+a {
+    color: var(--color-marron);
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+a:hover { color: var(--color-marron-oscuro); }
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 11px 22px;
+    border: none;
+    border-radius: var(--radio-pequeno);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    text-align: center;
+}
+
+.btn-primario {
+    background: linear-gradient(135deg, var(--color-marron-oscuro), var(--color-marron));
+    color: var(--color-blanco);
+    box-shadow: 0 12px 24px rgba(76, 54, 43, 0.18);
+}
+
+.btn-primario:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-media);
+}
+
+.btn-secundario {
+    background-color: rgba(255, 253, 248, 0.74);
+    color: var(--color-marron-oscuro);
+    border: var(--borde-fino);
+}
+
+.btn-secundario:hover {
+    background-color: var(--color-pistacho);
+    color: var(--color-marron-oscuro);
+}
+
+.btn-peligro {
+    background-color: var(--color-error);
+    color: var(--color-blanco);
+}
+
+.btn-peligro:hover { background-color: #91463d; }
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.campo-formulario { margin-bottom: 18px; }
+
+.campo-formulario label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 700;
+    color: var(--color-marron-oscuro);
+    font-size: 0.88rem;
+}
+
+.campo-formulario input,
+.campo-formulario select,
+.campo-formulario textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border: var(--borde-fino);
+    border-radius: var(--radio-pequeno);
+    font-family: inherit;
+    font-size: 0.98rem;
+    background-color: rgba(255, 253, 248, 0.9);
+    color: var(--color-texto);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.campo-formulario input:focus,
+.campo-formulario select:focus,
+.campo-formulario textarea:focus {
+    outline: none;
+    border-color: rgba(111, 128, 99, 0.7);
+    box-shadow: 0 0 0 4px rgba(201, 216, 189, 0.35);
+    background-color: var(--color-blanco);
+}
+
+.tarjeta {
+    background-color: rgba(255, 253, 248, 0.86);
+    border: var(--borde-fino);
+    border-radius: var(--radio-medio);
+    padding: 24px;
+    box-shadow: var(--sombra-suave);
+    backdrop-filter: blur(10px);
+}
+
+.mensaje {
+    padding: 12px 16px;
+    border-radius: var(--radio-pequeno);
+    margin: 12px 0;
+    font-size: 0.92rem;
+    text-align: center;
+    display: none;
+}
+
+.mensaje.visible { display: block; }
+
+.mensaje.exito {
+    background-color: rgba(201, 216, 189, 0.45);
+    color: #435d3d;
+    border: 1px solid rgba(111, 139, 103, 0.35);
+}
+
+.mensaje.error {
+    background-color: rgba(233, 200, 193, 0.55);
+    color: #833c34;
+    border: 1px solid rgba(180, 91, 79, 0.35);
+}
+
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+    background:
+        radial-gradient(circle at top left, rgba(233, 200, 193, 0.56), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(201, 216, 189, 0.7), transparent 35%),
+        var(--color-crema);
+}
+
+.logo-cargando {
+    width: min(420px, 100%);
+    text-align: center;
+    padding: 42px 34px;
+    background-color: rgba(255, 253, 248, 0.82);
+    border: var(--borde-fino);
+    border-radius: var(--radio-grande);
+    box-shadow: var(--sombra-fuerte);
+}
+
+.marca-sello {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, var(--color-blanco), var(--color-rosa-suave));
+    border: 1px solid rgba(200, 169, 106, 0.42);
+    color: var(--color-marron-oscuro);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    box-shadow: inset 0 0 0 8px rgba(255, 253, 248, 0.72), var(--sombra-suave);
+}
+
+.logo-cargando h1 { margin-bottom: 8px; }
+
+.logo-cargando p,
+.subtitulo {
+    color: var(--color-marron);
+    font-style: italic;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    margin: 28px auto 0;
+    border: 3px solid rgba(140, 106, 82, 0.16);
+    border-top-color: var(--color-pistacho-profundo);
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar { to { transform: rotate(360deg); } }
+
+.texto-centro { text-align: center; }
+.margen-arriba { margin-top: 16px; }
+.margen-abajo { margin-bottom: 16px; }
+.oculto { display: none !important; }
+

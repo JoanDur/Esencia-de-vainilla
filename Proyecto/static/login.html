@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión — Esencia Vainilla</title>
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/login.css">
+</head>
+<body>
+    <div class="contenedor-auth">
+        <div class="auth-shell">
+            <section class="carrusel-auth" aria-label="Galeria de postres Esencia Vainilla">
+                <div class="slide-auth slide-uno"></div>
+                <div class="slide-auth slide-dos"></div>
+                <div class="slide-auth slide-tres"></div>
+                <div class="slide-auth slide-cuatro"></div>
+                <div class="carrusel-contenido">
+                    <span class="marca-sello">EV</span>
+                    <p>Dolci artigianali</p>
+                    <h1>Esencia Vainilla</h1>
+                </div>
+            </section>
+
+            <div class="tarjeta-auth">
+                <div class="encabezado-auth">
+                    <span class="marca-sello">EV</span>
+                    <h1>Esencia Vainilla</h1>
+                    <p class="subtitulo">Dolci artigianali con vainilla y elegancia</p>
+                </div>
+
+                <h2 class="titulo-formulario">Iniciar sesión</h2>
+
+                <form id="form-login">
+                    <div class="campo-formulario">
+                        <label for="correo">Correo electrónico</label>
+                        <input
+                            type="email"
+                            id="correo"
+                            name="correo"
+                            placeholder="tucorreo@ejemplo.com"
+                            required
+                            autocomplete="email">
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="contrasena">Contraseña</label>
+                        <input
+                            type="password"
+                            id="contrasena"
+                            name="contrasena"
+                            placeholder="••••••••"
+                            required
+                            autocomplete="current-password">
+                    </div>
+
+                    <div id="mensaje" class="mensaje"></div>
+
+                    <button type="submit" class="btn btn-primario btn-completo" id="btn-login">
+                        Entrar
+                    </button>
+                </form>
+
+                <div class="enlace-secundario">
+                    <p>¿No tienes cuenta? <a href="/registro.html">Regístrate aquí</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+</html>

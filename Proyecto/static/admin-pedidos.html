@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos — Admin Esencia Vainilla</title>
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- ===================== SIDEBAR ===================== -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <span class="marca-mini">EV</span> <span>Admin</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin-dashboard.html" class="sidebar-link" id="side-dashboard">
+                    <span class="icono">DB</span> <span>Dashboard</span>
+                </a>
+                <a href="/admin-productos.html" class="sidebar-link" id="side-productos">
+                    <span class="icono">PR</span> <span>Productos</span>
+                </a>
+                <a href="/admin-categorias.html" class="sidebar-link" id="side-categorias">
+                    <span class="icono">CA</span> <span>Categorias</span>
+                </a>
+                <a href="/admin-pedidos.html" class="sidebar-link" id="side-pedidos">
+                    <span class="icono">PE</span> <span>Pedidos</span>
+                </a>
+                <a href="/admin-usuarios.html" class="sidebar-link" id="side-usuarios">
+                    <span class="icono">US</span> <span>Usuarios</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-usuario" id="sidebar-usuario"></div>
+                <button class="btn-salir-admin" id="btn-salir">Cerrar sesión</button>
+            </div>
+        </aside>
+
+        <!-- ===================== CONTENIDO ===================== -->
+        <main class="admin-contenido">
+            <div class="admin-titulo">
+                <h1>Pedidos</h1>
+                <p>Gestiona y actualiza los pedidos</p>
+            </div>
+
+            <!-- Filtros por estado -->
+            <div class="filtros-estado" id="filtros-estado">
+                <button class="pill-estado activo" data-estado="todos">Todos</button>
+                <button class="pill-estado" data-estado="PENDIENTE">Pendientes</button>
+                <button class="pill-estado" data-estado="CONFIRMADO">Confirmados</button>
+                <button class="pill-estado" data-estado="EN_CAMINO">En camino</button>
+                <button class="pill-estado" data-estado="ENTREGADO">Entregados</button>
+                <button class="pill-estado" data-estado="CANCELADO">Cancelados</button>
+            </div>
+
+            <div class="seccion-tabla">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>Pedido</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-pedidos">
+                        <tr><td colspan="6" class="cargando-fila">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===================== MODAL DETALLE ===================== -->
+    <div class="modal-overlay oculto" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-cabecera">
+                <h2 id="modal-titulo">Detalle del pedido</h2>
+                <button class="modal-cerrar" id="modal-cerrar">&times;</button>
+            </div>
+            <div id="modal-detalle-contenido">
+                <!-- Se llena dinamicamente -->
+            </div>
+            <div class="modal-acciones">
+                <button type="button" class="btn btn-secundario" id="modal-cerrar-2">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script src="/js/admin-pedidos.js"></script>
+</body>
+</html>

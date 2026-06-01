@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Pedidos — Esencia Vainilla</title>
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/catalogo.css">
+    <link rel="stylesheet" href="/styles/mis-pedidos.css">
+</head>
+<body>
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <span class="marca-mini">EV</span> Esencia Vainilla
+        </div>
+        <div class="navbar-enlaces">
+            <a href="/catalogo.html" class="nav-link">Catálogo</a>
+            <a href="/mis-pedidos.html" class="nav-link activo">Mis Pedidos</a>
+            <a href="/admin-dashboard.html" class="nav-link oculto" id="link-admin">Panel Admin</a>
+            <a href="/carrito.html" class="nav-carrito" aria-label="Carrito"><span class="contador-carrito" id="contador-carrito">0</span>
+            </a>
+            <span class="saludo-usuario" id="saludo-usuario"></span>
+            <button class="btn-cerrar-sesion" id="btn-cerrar-sesion">Cerrar sesión</button>
+        </div>
+    </nav>
+
+    <!-- ===================== CONTENIDO ===================== -->
+    <main class="contenido-pedidos">
+        <h1 class="titulo-pedidos">Mis pedidos</h1>
+
+        <!-- Lista de pedidos -->
+        <div class="lista-pedidos" id="lista-pedidos">
+            <p class="cargando-texto">Cargando tus pedidos...</p>
+        </div>
+
+        <!-- Mensaje sin pedidos -->
+        <div class="sin-pedidos oculto" id="sin-pedidos">
+            
+            <h2>Aún no tienes pedidos</h2>
+            <p>¡Haz tu primer pedido y aparecerá aquí!</p>
+            <a href="/catalogo.html" class="btn btn-primario margen-arriba">Ir al catálogo</a>
+        </div>
+    </main>
+
+    <script src="/js/sesion.js"></script>
+    <script src="/js/mis-pedidos.js"></script>
+</body>
+</html>

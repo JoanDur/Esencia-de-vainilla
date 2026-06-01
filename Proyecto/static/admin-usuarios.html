@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios — Admin Esencia Vainilla</title>
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- ===================== SIDEBAR ===================== -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <span class="marca-mini">EV</span> <span>Admin</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin-dashboard.html" class="sidebar-link" id="side-dashboard">
+                    <span class="icono">DB</span> <span>Dashboard</span>
+                </a>
+                <a href="/admin-productos.html" class="sidebar-link" id="side-productos">
+                    <span class="icono">PR</span> <span>Productos</span>
+                </a>
+                <a href="/admin-categorias.html" class="sidebar-link" id="side-categorias">
+                    <span class="icono">CA</span> <span>Categorias</span>
+                </a>
+                <a href="/admin-pedidos.html" class="sidebar-link" id="side-pedidos">
+                    <span class="icono">PE</span> <span>Pedidos</span>
+                </a>
+                <a href="/admin-usuarios.html" class="sidebar-link" id="side-usuarios">
+                    <span class="icono">US</span> <span>Usuarios</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-usuario" id="sidebar-usuario"></div>
+                <button class="btn-salir-admin" id="btn-salir">Cerrar sesión</button>
+            </div>
+        </aside>
+
+        <!-- ===================== CONTENIDO ===================== -->
+        <main class="admin-contenido">
+            <div class="admin-titulo">
+                <h1>Usuarios</h1>
+                <p>Gestiona las cuentas de la tienda</p>
+            </div>
+
+            <div class="seccion-tabla">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-usuarios">
+                        <tr><td colspan="6" class="cargando-fila">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script src="/js/admin-usuarios.js"></script>
+</body>
+</html>
+
