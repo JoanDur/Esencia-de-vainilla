@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro — Esencia Vainilla</title>
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/login.css">
+</head>
+<body>
+    <div class="contenedor-auth">
+        <div class="tarjeta-auth">
+            <div class="encabezado-auth">
+                <span class="marca-sello">EV</span>
+                <h1>Esencia Vainilla</h1>
+                <p class="subtitulo">Únete a nuestra dulce comunidad</p>
+            </div>
+
+            <h2 class="titulo-formulario">Crear cuenta</h2>
+
+            <form id="form-registro">
+                <div class="campo-formulario">
+                    <label for="nombre">Nombre completo</label>
+                    <input
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        placeholder="Maria Rodriguez"
+                        required
+                        minlength="2"
+                        maxlength="50">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="correo">Correo electrónico</label>
+                    <input
+                        type="email"
+                        id="correo"
+                        name="correo"
+                        placeholder="tucorreo@ejemplo.com"
+                        required
+                        maxlength="100"
+                        autocomplete="email">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="telefono">Teléfono (opcional)</label>
+                    <input
+                        type="tel"
+                        id="telefono"
+                        name="telefono"
+                        placeholder="3001234567"
+                        pattern="[0-9]{7,10}"
+                        maxlength="10">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="contrasena">Contraseña</label>
+                    <input
+                        type="password"
+                        id="contrasena"
+                        name="contrasena"
+                        placeholder="••••••••"
+                        required
+                        minlength="4"
+                        autocomplete="new-password">
+                </div>
+
+                <div id="mensaje" class="mensaje"></div>
+
+                <button type="submit" class="btn btn-primario btn-completo" id="btn-registro">
+                    Crear cuenta
+                </button>
+            </form>
+
+            <div class="enlace-secundario">
+                <p>¿Ya tienes cuenta? <a href="/login.html">Inicia sesión</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/registro.js"></script>
+</body>
+</html>

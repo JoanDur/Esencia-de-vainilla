@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carrito — Esencia Vainilla</title>
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/catalogo.css">
+    <link rel="stylesheet" href="/styles/carrito.css">
+</head>
+<body>
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <span class="marca-mini">EV</span> Esencia Vainilla
+        </div>
+        <div class="navbar-enlaces">
+            <a href="/catalogo.html" class="nav-link">Catálogo</a>
+            <a href="/mis-pedidos.html" class="nav-link">Mis Pedidos</a>
+            <a href="/admin-dashboard.html" class="nav-link oculto" id="link-admin">Panel Admin</a>
+            <a href="/carrito.html" class="nav-carrito activo" aria-label="Carrito"><span class="contador-carrito" id="contador-carrito">0</span>
+            </a>
+            <span class="saludo-usuario" id="saludo-usuario"></span>
+            <button class="btn-cerrar-sesion" id="btn-cerrar-sesion">Cerrar sesión</button>
+        </div>
+    </nav>
+
+    <!-- ===================== CONTENIDO ===================== -->
+    <main class="contenido-carrito">
+        <h1 class="titulo-carrito">Mi carrito</h1>
+
+        <!-- Vista cuando hay productos -->
+        <div class="carrito-layout" id="carrito-layout">
+            <!-- Lista de productos -->
+            <section class="lista-items" id="lista-items">
+                <!-- Se llena dinamicamente con JS -->
+            </section>
+
+            <!-- Resumen del pedido -->
+            <aside class="resumen-pedido">
+                <h2>Resumen</h2>
+
+                <div class="resumen-linea">
+                    <span>Subtotal</span>
+                    <span id="resumen-subtotal">$0</span>
+                </div>
+                <div class="resumen-linea">
+                    <span>Envío</span>
+                    <span id="resumen-envio">$5.000</span>
+                </div>
+                <div class="resumen-linea total">
+                    <span>Total</span>
+                    <span id="resumen-total">$0</span>
+                </div>
+
+                <!-- Metodo de pago -->
+                <div class="campo-formulario margen-arriba">
+                    <label for="metodo-pago">Método de pago</label>
+                    <select id="metodo-pago">
+                        <option value="EFECTIVO">Efectivo</option>
+                        <option value="TARJETA">Tarjeta</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primario btn-completo margen-arriba" id="btn-confirmar">
+                    Confirmar pedido
+                </button>
+                <a href="/catalogo.html" class="btn btn-secundario btn-completo margen-arriba">
+                    Seguir comprando
+                </a>
+
+                <div id="mensaje" class="mensaje"></div>
+            </aside>
+        </div>
+
+        <!-- Vista cuando el carrito esta vacio -->
+        <div class="carrito-vacio oculto" id="carrito-vacio">
+            
+            <h2>Tu carrito está vacío</h2>
+            <p>Explora nuestra seleccion artesanal y elige tus favoritos.</p>
+            <a href="/catalogo.html" class="btn btn-primario margen-arriba">Ir al catálogo</a>
+        </div>
+    </main>
+
+    <script src="/js/sesion.js"></script>
+    <script src="/js/carrito.js"></script>
+</body>
+</html>

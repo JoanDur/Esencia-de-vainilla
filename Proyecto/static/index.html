@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esencia Vainilla</title>
+    <link rel="stylesheet" href="/styles/base.css">
+</head>
+<body>
+    <div class="loading-screen">
+        <div class="logo-cargando">
+            <span class="marca-sello">EV</span>
+            <h1>Esencia Vainilla</h1>
+            <p>Dolci artigianali con vainilla y elegancia</p>
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <script>
+        // Página de entrada: decide a dónde redirigir al usuario.
+        // - Si tiene sesión activa (sessionStorage), va al catálogo.
+        // - Si no, va al login.
+        window.addEventListener('DOMContentLoaded', () => {
+            const usuario = sessionStorage.getItem('usuario');
+
+            setTimeout(() => {
+                if (usuario) {
+                    window.location.href = '/catalogo.html';
+                } else {
+                    window.location.href = '/login.html';
+                }
+            }, 800);  // pequeña pausa para que se vea la pantalla de carga
+        });
+    </script>
+</body>
+</html>

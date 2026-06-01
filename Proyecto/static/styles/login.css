@@ -1,0 +1,210 @@
+﻿/* =================================================================
+   LOGIN.CSS - Acceso y registro
+   ================================================================= */
+
+.contenedor-auth {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 28px;
+    background:
+        linear-gradient(120deg, rgba(255, 253, 248, 0.32), rgba(233, 200, 193, 0.42)),
+        var(--color-crema);
+}
+
+.auth-shell {
+    width: min(1060px, 100%);
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+    align-items: stretch;
+    min-height: 620px;
+    border: var(--borde-fino);
+    border-radius: var(--radio-grande);
+    overflow: hidden;
+    box-shadow: var(--sombra-fuerte);
+    background-color: rgba(255, 253, 248, 0.58);
+    backdrop-filter: blur(14px);
+}
+
+.carrusel-auth {
+    position: relative;
+    min-height: 620px;
+    overflow: hidden;
+    background:
+        linear-gradient(135deg, rgba(76, 54, 43, 0.18), rgba(201, 216, 189, 0.24)),
+        var(--color-beige);
+}
+
+.slide-auth {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background-position: center;
+    background-size: cover;
+    animation: carruselAuth 20s infinite;
+    transform: scale(1.04);
+}
+
+.slide-auth::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(61, 48, 43, 0.45), rgba(61, 48, 43, 0.04) 62%),
+        linear-gradient(0deg, rgba(61, 48, 43, 0.36), transparent 48%);
+}
+
+.slide-uno {
+    background-image:
+        linear-gradient(135deg, rgba(233, 200, 193, 0.68), rgba(251, 246, 237, 0.18)),
+        url("/img/torta-chocolate.png");
+}
+
+.slide-dos {
+    background-image:
+        linear-gradient(135deg, rgba(201, 216, 189, 0.66), rgba(251, 246, 237, 0.18)),
+        url("/img/cupcake-oreo.png");
+    animation-delay: 5s;
+}
+
+.slide-tres {
+    background-image:
+        linear-gradient(135deg, rgba(200, 169, 106, 0.48), rgba(251, 246, 237, 0.16)),
+        url("/img/cheesecake-maracuya.jpeg");
+    animation-delay: 10s;
+}
+
+.slide-cuatro {
+    background-image:
+        linear-gradient(135deg, rgba(140, 106, 82, 0.44), rgba(251, 246, 237, 0.14)),
+        url("/img/brownie-helado.jpeg");
+    animation-delay: 15s;
+}
+
+.carrusel-contenido {
+    position: absolute;
+    left: clamp(28px, 5vw, 54px);
+    bottom: clamp(28px, 5vw, 54px);
+    z-index: 2;
+    max-width: 420px;
+    color: var(--color-blanco);
+}
+
+.carrusel-contenido .marca-sello {
+    margin: 0 0 18px;
+    background: rgba(255, 253, 248, 0.88);
+}
+
+.carrusel-contenido p {
+    color: rgba(255, 253, 248, 0.86);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.carrusel-contenido h1 {
+    color: var(--color-blanco);
+    font-size: clamp(2.4rem, 5vw, 4.4rem);
+    text-shadow: 0 14px 34px rgba(61, 48, 43, 0.28);
+}
+
+.tarjeta-auth {
+    background-color: rgba(255, 253, 248, 0.88);
+    border: var(--borde-fino);
+    border-radius: var(--radio-grande);
+    box-shadow: var(--sombra-fuerte);
+    padding: clamp(30px, 5vw, 46px);
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: aparecer 0.4s ease-out;
+    backdrop-filter: blur(14px);
+}
+
+.auth-shell .tarjeta-auth {
+    border: none;
+    border-left: var(--borde-fino);
+    border-radius: 0;
+    box-shadow: none;
+    max-width: none;
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.encabezado-auth {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.encabezado-auth h1 {
+    font-size: 2.25rem;
+    margin-bottom: 6px;
+}
+
+.titulo-formulario {
+    font-size: 1.45rem;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.btn-completo {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.enlace-secundario {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-marron-oscuro);
+}
+
+.enlace-secundario a {
+    font-weight: 800;
+    border-bottom: 1px solid rgba(140, 106, 82, 0.35);
+}
+
+@keyframes carruselAuth {
+    0% { opacity: 0; transform: scale(1.04); }
+    8% { opacity: 1; }
+    25% { opacity: 1; }
+    33% { opacity: 0; transform: scale(1.11); }
+    100% { opacity: 0; transform: scale(1.11); }
+}
+
+@media (max-width: 860px) {
+    .auth-shell {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .carrusel-auth {
+        min-height: 280px;
+    }
+
+    .auth-shell .tarjeta-auth {
+        border-left: none;
+        border-top: var(--borde-fino);
+    }
+}
+
+@media (max-width: 540px) {
+    .contenedor-auth {
+        padding: 16px;
+    }
+
+    .carrusel-auth {
+        min-height: 220px;
+    }
+
+    .carrusel-contenido {
+        left: 22px;
+        right: 22px;
+        bottom: 22px;
+    }
+}
